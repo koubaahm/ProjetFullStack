@@ -1,27 +1,49 @@
-<nav class="navbar navbar-expand-lg" style="background: linear-gradient(90deg, #2C2C2C, #1F1F1F);">
-    <div class="container-fluid">
-      <!-- Logo de la Navbar -->
-      <a class="navbar-brand d-flex align-items-center" href="#" style="color: #E7C957; font-weight: 700; font-size: 1.5rem;">
-        <i class="bi bi-box-seam me-2"></i> Gestion Categories
+<nav class="bg-black shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="text-2xl font-bold text-yellow-400 tracking-wide flex items-center">
+      <span class="bg-gradient-to-r from-yellow-400 to-yellow-300 bg-clip-text text-transparent">
+        Gestion Categories
+      </span>
+    </a>
+
+    <!-- Menu responsive -->
+    <button
+      class="lg:hidden text-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="bi bi-list text-3xl"></i>
+    </button>
+
+    <!-- Liens de navigation -->
+    <div
+      id="navbarNav"
+      class="hidden lg:flex lg:items-center lg:space-x-8"
+    >
+      <a
+        routerLink="/listCategorie"
+        routerLinkActive="active"
+        class="relative px-4 py-2 font-semibold text-yellow-400 hover:text-yellow-300 transition duration-300"
+      >
+        <span
+          class="absolute inset-x-0 bottom-0 h-1 bg-yellow-400 transform scale-x-0 transition-transform duration-300 origin-right hover:origin-left group-hover:scale-x-100"
+        ></span>
+        <i class="bi bi-list-ul mr-2"></i> Liste des Catégories
       </a>
-  
-      <!-- Bouton pour menu responsive -->
-      <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" style="color: #E7C957;"><i class="bi bi-three-dots"></i></span>
-      </button>
-  
-      <!-- Liens de Navigation et Filtres -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link px-3 py-2" routerLink="/listCategorie" routerLinkActive="active" style="color: #E7C957; font-weight: 500;">
-              <i class="bi bi-list-ul me-2"></i> Liste des Catégories
-            </a>
-          </li>
-        </ul>
-  
-    
-      </div>
+      <a
+        routerLink="/ajoutCategorie"
+        routerLinkActive="active"
+        class="relative px-4 py-2 font-semibold text-yellow-400 hover:text-yellow-300 transition duration-300"
+      >
+        <span
+          class="absolute inset-x-0 bottom-0 h-1 bg-yellow-400 transform scale-x-0 transition-transform duration-300 origin-right hover:origin-left group-hover:scale-x-100"
+        ></span>
+      </a>
     </div>
-  </nav>
-  
+  </div>
+</nav>

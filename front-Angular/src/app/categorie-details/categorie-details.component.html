@@ -1,15 +1,57 @@
-<div *ngIf="categorie">
-    <h2>Détails de la catégorie : {{ categorie.nom }}</h2>
-    <p><strong>ID :</strong> {{ categorie.id }}</p>
-    <p><strong>Date de création :</strong> {{ convertToDate(categorie.dateCreation) | date:'dd/MM/yyyy' }}</p>
-    <p><strong>Statut :</strong> {{ categorie.estRacine ? 'Racine' : 'Non racine' }}</p>
-  
-    <h3>Enfants :</h3>
-    <ul *ngIf="categorie.enfants && categorie.enfants.length > 0">
-      <li *ngFor="let enfant of categorie.enfants">{{ enfant.nom }}</li>
-    </ul>
-    <p *ngIf="!categorie.enfants || categorie.enfants.length === 0">Aucun enfant</p>
-  
-    <button (click)="goBack()">Retour</button>
+<div *ngIf="categorie" class="bg-gray-800 text-white p-6 rounded-lg shadow-lg relative">
+  <!-- Boutons en haut à droite -->
+  <div class="absolute top-4 right-4 flex space-x-2">
+    <!-- Bouton Modifier -->
+    <button
+      (click)="navigateToModifier(categorie.id)"
+      class="bg-blue-500 text-white font-semibold px-3 py-2 rounded hover:bg-blue-600 transition duration-300"
+    >
+      Modifier
+    </button>
+
+    <!-- Bouton Supprimer -->
+    <button
+      (click)="deleteCategorie(categorie.id)"
+      class="bg-red-500 text-white font-semibold px-3 py-2 rounded hover:bg-red-600 transition duration-300"
+    >
+      Supprimer
+    </button>
   </div>
-  
+
+  <!-- Contenu principal -->
+  <h2 class="text-2xl font-bold text-yellow-400 mb-4">
+    Détails de la catégorie : <span class="text-indigo-400">{{ categorie.nom }}</span>
+  </h2>
+
+  <p class="mb-2">
+    <strong class="font-semibold">ID :</strong> {{ categorie.id }}
+  </p>
+  <p class="mb-2">
+    <strong class="font-semibold">Date de création :</strong>
+    <span class="text-green-400">{{ convertToDate(categorie.dateCreation) | date:'dd/MM/yyyy' }}</span>
+  </p>
+  <p class="mb-4">
+    <strong class="font-semibold">Statut :</strong>
+    <span [ngClass]="categorie.estRacine ? 'text-blue-400 font-bold' : 'text-red-400 font-bold'">
+      {{ categorie.estRacine ? 'Racine' : 'Non racine' }}
+    </span>
+  </p>
+
+  <h3 class="text-xl font-semibold text-yellow-300 mb-2">Enfants :</h3>
+  <ul *ngIf="categorie.enfants && categorie.enfants.length > 0" class="list-disc list-inside mb-4">
+    <li *ngFor="let enfant of categorie.enfants" class="text-gray-300">{{ enfant.nom }}</li>
+  </ul>
+  <p *ngIf="!categorie.enfants || categorie.enfants.length === 0" class="text-red-400 mb-4">
+    Aucun enfant
+  </p>
+
+  <!-- Bouton Retour -->
+  <div>
+    <button
+      (click)="goBack()"
+      class="bg-yellow-400 text-gray-800 font-semibold px-4 py-2 rounded hover:bg-yellow-500 transition duration-300"
+    >
+      Retour
+    </button>
+  </div>
+</div>

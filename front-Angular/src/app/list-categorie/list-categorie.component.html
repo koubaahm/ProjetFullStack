@@ -1,38 +1,81 @@
-<table class="modern-table">
-  <thead>
-    <tr>
-      <th>Nom de la catégorie</th>
-      <th>Crée le</th>
-      <th>Statut</th>
-      <th>Enfants</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let categorie of categories">
-      <td>
-        <a [routerLink]="['/categories', categorie.id]">{{ categorie.nom }}</a>
-      </td>
-      <td>{{ formatDate(categorie.dateCreation) }}</td>
-      <td>
-        <span class="status-badge" [class.racine]="categorie.estRacine">
-          {{ categorie.estRacine ? 'Racine' : 'Non racine' }}
-        </span>
-      </td>
-      <td>
-        <ul *ngIf="categorie.enfants && categorie.enfants.length > 0" class="children-list">
-          <li *ngFor="let enfant of categorie.enfants">{{ enfant.nom }}</li>
-        </ul>
-        <span *ngIf="!categorie.enfants || categorie.enfants.length === 0">Aucun enfant</span>
-      </td>
-      <td>
-        <button class="action-button edit" onclick="window.location.href='/modifierCategorie/' + categorie.id">
-          Modifier
-        </button>
-        <button class="action-button delete" (click)="deleteCategorie(categorie.id)">
-          Supprimer
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="mb-6 flex justify-between items-center">
+  <h2 class="text-2xl font-extrabold text-yellow-400">Liste des catégories</h2>
+  <button
+    class="bg-gradient-to-r from-yellow-500 to-yellow-400 text-gray-900 px-4 py-2 rounded-lg shadow hover:from-yellow-600 hover:to-yellow-500 hover:scale-105 transition duration-300"
+    routerLink="/ajoutCategorie"
+  >
+    Ajouter Catégorie
+  </button>
+</div>
+
+<!-- Tableau -->
+<div class="overflow-auto shadow-lg rounded-lg border border-gray-700">
+  <table class="table-auto w-full text-sm text-gray-300 bg-black rounded-lg">
+    <thead class="bg-gray-900">
+      <tr>
+        <th class="px-4 py-3 text-left uppercase font-semibold text-yellow-400 border-b border-gray-700">Nom</th>
+        <th class="px-4 py-3 text-left uppercase font-semibold text-yellow-400 border-b border-gray-700">Créé le</th>
+        <th class="px-4 py-3 text-left uppercase font-semibold text-yellow-400 border-b border-gray-700">Statut</th>
+        <th class="px-4 py-3 text-left uppercase font-semibold text-yellow-400 border-b border-gray-700">Enfants</th>
+        <th class="px-4 py-3 text-left uppercase font-semibold text-yellow-400 border-b border-gray-700">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let categorie of categories"
+        class="hover:bg-gray-800 transition duration-300"
+      >
+        <td class="px-4 py-2">
+          <a [routerLink]="['/categories', categorie.id]" class="text-yellow-400 hover:underline">
+            {{ categorie.nom }}
+          </a>
+        </td>
+        <td class="px-4 py-2">
+          {{ formatDate(categorie.dateCreation) }}
+        </td>
+        <td class="px-4 py-2">
+          <span
+            [ngClass]="{
+              'text-green-500 font-bold': categorie.estRacine,
+              'text-red-500 font-bold': !categorie.estRacine
+            }"
+          >
+            {{ categorie.estRacine ? 'Racine' : 'Non racine' }}
+          </span>
+        </td>
+        <td class="px-4 py-2">
+          <ul
+            *ngIf="categorie.enfants && categorie.enfants.length > 0"
+            class="list-disc list-inside"
+          >
+            <li *ngFor="let enfant of categorie.enfants">
+              <a
+                [routerLink]="['/categories', enfant.id]"
+                class="text-yellow-400 hover:underline"
+              >
+                {{ enfant.nom }}
+              </a>
+            </li>
+          </ul>
+          <span *ngIf="!categorie.enfants || categorie.enfants.length === 0" class="text-gray-500">
+            Aucun enfant
+          </span>
+        </td>
+        <td class="px-4 py-2 flex space-x-2">
+          <button
+            class="bg-gradient-to-r from-blue-500 to-blue-400 text-gray-900 px-3 py-1 rounded-lg shadow hover:from-blue-600 hover:to-blue-500 hover:scale-105 transition duration-300"
+            (click)="navigateToModifier(categorie.id)"
+          >
+            Modifier
+          </button>
+          <button
+            class="bg-gradient-to-r from-red-500 to-red-400 text-gray-900 px-3 py-1 rounded-lg shadow hover:from-red-600 hover:to-red-500 hover:scale-105 transition duration-300"
+            (click)="deleteCategorie(categorie.id)"
+          >
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

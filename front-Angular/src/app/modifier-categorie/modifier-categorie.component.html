@@ -1,25 +1,46 @@
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Modifier la catégorie</h2>
-
-    <form [formGroup]="categorieForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label for="nom" class="form-label">Nom de la catégorie</label>
-        <input type="text" id="nom" formControlName="nom" class="form-control" />
-        <div *ngIf="categorieForm.get('nom')?.invalid && categorieForm.get('nom')?.touched" class="text-danger">
-          Le nom est requis
-        </div>
+<div class="bg-gray-900 text-gray-100 rounded-lg shadow-lg p-6 max-w-lg mx-auto mt-8">
+  <h2 class="text-2xl font-bold text-yellow-400 text-center mb-6">Modifier la Catégorie</h2>
+  <form [formGroup]="categorieForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Nom de la Catégorie -->
+    <div>
+      <label for="nom" class="block text-sm font-semibold text-gray-300 mb-2">Nom de la Catégorie</label>
+      <input 
+        type="text" 
+        id="nom" 
+        formControlName="nom" 
+        placeholder="Entrez le nouveau nom de la catégorie"
+        class="w-full px-4 py-2 bg-gray-800 text-gray-300 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+      />
+      <div 
+        *ngIf="categorieForm.get('nom')?.invalid && categorieForm.get('nom')?.touched" 
+        class="text-red-500 text-sm mt-2"
+      >
+        Le nom est requis.
       </div>
+    </div>
 
-      <div class="mb-3">
-        <label for="parentId" class="form-label">Catégorie parente</label>
-        <select id="parentId" formControlName="parentId" class="form-control">
-          <!-- Affichage de la liste des catégories sans la catégorie racine -->
-          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.nom }}</option>
-          <!-- Option spéciale pour les catégories racines -->
-          <option *ngIf="categorieForm.get('parentId')?.value === null" value="null">Pas de parent</option>
-        </select>
-      </div>
+    <!-- Catégorie Parente -->
+    <div>
+      <label for="parentId" class="block text-sm font-semibold text-gray-300 mb-2">Catégorie Parente</label>
+      <select 
+        id="parentId" 
+        formControlName="parentId"
+        class="w-full px-4 py-2 bg-gray-800 text-gray-300 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+      >
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.nom }}</option>
+        <option *ngIf="categorieForm.get('parentId')?.value === null" value="null">Pas de parent</option>
+      </select>
+    </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="categorieForm.invalid">Enregistrer</button>
-    </form>
+    <!-- Bouton Enregistrer -->
+    <div class="text-center">
+      <button 
+        type="submit" 
+        class="bg-gradient-to-r from-blue-500 to-blue-400 text-gray-900 px-6 py-2 rounded-lg shadow hover:from-blue-600 hover:to-blue-500 hover:scale-105 transition duration-300"
+        [disabled]="categorieForm.invalid"
+      >
+        Enregistrer
+      </button>
+    </div>
+  </form>
 </div>

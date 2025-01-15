@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; // Importer Router
 import { CategorieService } from '../categorie.service';
 import { Categorie } from '../Categorie';
 import { DatePipe } from '@angular/common';
@@ -18,7 +19,11 @@ export class ListCategorieComponent implements OnInit {
     estRacine: undefined as boolean | undefined
   };
 
-  constructor(private categorieService: CategorieService, private datePipe: DatePipe) {}
+  constructor(
+    private categorieService: CategorieService,
+    private router: Router, // Injecter Router ici
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
     this.loadCategories(); // Charger la première page au démarrage
@@ -78,5 +83,10 @@ export class ListCategorieComponent implements OnInit {
         }
       );
     }
+  }
+
+  // Méthode pour naviguer vers la page de modification
+  navigateToModifier(id: number): void {
+    this.router.navigate(['/modifierCategorie', id]);
   }
 }

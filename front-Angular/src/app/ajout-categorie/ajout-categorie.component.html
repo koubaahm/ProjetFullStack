@@ -1,25 +1,48 @@
-<div class="container mt-4">
-    <h3 class="text-center mb-4">Ajouter une Catégorie</h3>
-    <form [formGroup]="categorieForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label for="nom" class="form-label">Nom de la Catégorie</label>
-        <input type="text" id="nom" class="form-control" formControlName="nom" placeholder="Entrez le nom de la catégorie" />
-        <div *ngIf="categorieForm.get('nom')?.invalid && categorieForm.get('nom')?.touched" class="text-danger">
-          Le nom de la catégorie est requis.
-        </div>
+<div class="bg-gray-900 text-gray-100 rounded-lg shadow-lg p-6 max-w-lg mx-auto mt-8">
+  <h3 class="text-2xl font-bold text-yellow-400 text-center mb-6">Ajouter une Catégorie</h3>
+  <form [formGroup]="categorieForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Nom de la Catégorie -->
+    <div>
+      <label for="nom" class="block text-sm font-semibold text-gray-300 mb-2">Nom de la Catégorie</label>
+      <input 
+        type="text" 
+        id="nom" 
+        formControlName="nom" 
+        placeholder="Entrez le nom de la catégorie"
+        class="w-full px-4 py-2 bg-gray-800 text-gray-300 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+      />
+      <div 
+        *ngIf="categorieForm.get('nom')?.invalid && categorieForm.get('nom')?.touched" 
+        class="text-red-500 text-sm mt-2"
+      >
+        Le nom de la catégorie est requis.
       </div>
-  
-      <div class="mb-3">
-        <label for="parentId" class="form-label">Catégorie Parente</label>
-        <select id="parentId" class="form-select" formControlName="parentId">
-          <option value="">Aucune</option>
-          <option *ngFor="let categorie of categories" [value]="categorie.id">
-            {{ categorie.nom }}
-          </option>
-        </select>
-      </div>
-  
-      <button type="submit" class="btn btn-primary" [disabled]="categorieForm.invalid">Ajouter</button>
-    </form>
-  </div>
-  
+    </div>
+
+    <!-- Catégorie Parente -->
+    <div>
+      <label for="parentId" class="block text-sm font-semibold text-gray-300 mb-2">Catégorie Parente</label>
+      <select 
+        id="parentId" 
+        formControlName="parentId"
+        class="w-full px-4 py-2 bg-gray-800 text-gray-300 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+      >
+        <option value="">Aucune</option>
+        <option *ngFor="let categorie of categories" [value]="categorie.id">
+          {{ categorie.nom }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Bouton Ajouter -->
+    <div class="text-center">
+      <button 
+        type="submit" 
+        class="bg-gradient-to-r from-yellow-500 to-yellow-400 text-gray-900 px-6 py-2 rounded-lg shadow hover:from-yellow-600 hover:to-yellow-500 hover:scale-105 transition duration-300"
+        [disabled]="categorieForm.invalid"
+      >
+        Ajouter
+      </button>
+    </div>
+  </form>
+</div>
