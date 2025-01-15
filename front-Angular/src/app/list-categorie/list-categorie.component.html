@@ -1,5 +1,24 @@
 <div class="mb-6 flex justify-between items-center">
   <h2 class="text-2xl font-extrabold text-yellow-400">Liste des catégories</h2>
+  <div class="mb-6 flex justify-between items-center">
+
+    
+    <div class="flex space-x-4 items-center">
+      <!-- Menu déroulant pour le tri -->
+      <label for="sortCriteria" class="text-gray-300 font-medium">Trier par :</label>
+      <select
+        id="sortCriteria"
+        [(ngModel)]="sortCriteria"
+        (change)="applySort()"
+        class="bg-gray-800 text-yellow-400 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+      >
+        <option value="name">Nom</option>
+        <option value="dateCreation">Date de création</option>
+        <option value="childrenCount">Nombre d'enfants</option>
+      </select>
+    </div>
+  </div>
+  
   <button
     class="bg-gradient-to-r from-yellow-500 to-yellow-400 text-gray-900 px-4 py-2 rounded-lg shadow hover:from-yellow-600 hover:to-yellow-500 hover:scale-105 transition duration-300"
     routerLink="/ajoutCategorie"

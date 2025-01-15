@@ -2,6 +2,9 @@ package univ.rouen.gestionCategorie.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import univ.rouen.gestionCategorie.entities.Categorie;
 import java.util.List;
@@ -46,10 +49,16 @@ public class CategorieController {
     }
 
     // API qui permet d'afficher toutes les catégories
-    @GetMapping("/")
-    public List<Categorie> getAllCategories() {
-        return categorieService.getAllCategories();
+    @GetMapping()
+    public Page<Categorie> getCategories(
+            @RequestParam(required = false, defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return categorieService.getAllCategories(pageable);
     }
+
 
     // API qui permet d'afficher une catégorie par son ID
     @GetMapping("/{id}")

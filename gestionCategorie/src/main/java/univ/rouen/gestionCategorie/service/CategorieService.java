@@ -105,8 +105,8 @@ public class CategorieService {
 
         categorieRepository.deleteById(id);
     }
-    public List<Categorie> getAllCategories() {
-        return categorieRepository.findAll();
+    public Page<Categorie> getAllCategories(Pageable pageable) {
+        return categorieRepository.findAll(pageable);
     }
     public Categorie getCategorieById(Long id) {
         Optional<Categorie> categorieOptional = categorieRepository.findById(id);

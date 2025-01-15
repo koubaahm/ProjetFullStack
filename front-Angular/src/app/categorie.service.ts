@@ -81,7 +81,15 @@ getFilteredCategories(estRacine?: boolean, page: number = 0, size: number = 10):
   return this.http.get<any>(`${this.apiUrl}filtrer`, { params });
 }
 
-  
+getSortedCategories(sortBy: string, page: number = 0, size: number = 10): Observable<any> {
+  let params = new HttpParams()
+    .set('sortBy', sortBy)
+    .set('page', page.toString())
+    .set('size', size.toString());
+
+  return this.http.get<any>(`${this.apiUrl}`, { params });
+}
+
   
   
 }

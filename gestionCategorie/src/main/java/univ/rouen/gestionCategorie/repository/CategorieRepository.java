@@ -21,4 +21,5 @@ public interface CategorieRepository extends JpaRepository<Categorie, Long> {
 
 
 
+
 }
