@@ -1,0 +1,25 @@
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Ajouter une Catégorie</h3>
+    <form [formGroup]="categorieForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="nom" class="form-label">Nom de la Catégorie</label>
+        <input type="text" id="nom" class="form-control" formControlName="nom" placeholder="Entrez le nom de la catégorie" />
+        <div *ngIf="categorieForm.get('nom')?.invalid && categorieForm.get('nom')?.touched" class="text-danger">
+          Le nom de la catégorie est requis.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="parentId" class="form-label">Catégorie Parente</label>
+        <select id="parentId" class="form-select" formControlName="parentId">
+          <option value="">Aucune</option>
+          <option *ngFor="let categorie of categories" [value]="categorie.id">
+            {{ categorie.nom }}
+          </option>
+        </select>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="categorieForm.invalid">Ajouter</button>
+    </form>
+  </div>
+  

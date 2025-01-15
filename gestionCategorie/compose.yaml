@@ -1,0 +1,47 @@
+services:
+  postgresdb:
+    image: 'postgres:latest'
+    container_name: 'postgres-db'
+    environment:
+      POSTGRES_DB: 'categorie-db'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: '123'
+    ports:
+      - '5432:5432'
+    networks:
+      - mynetwork
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    container_name: 'pgadmin'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
+    ports:
+      - '5050:80'
+    networks:
+      - mynetwork
+    depends_on:
+      - postgresdb
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin  # Volume persistant pour pgAdmin
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:
