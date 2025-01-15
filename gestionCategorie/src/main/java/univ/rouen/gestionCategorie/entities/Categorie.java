@@ -23,8 +23,9 @@ public class Categorie {
     @Column(unique = true, nullable = false)
     private String nom;
 
-    @Column(name = "date_creation")
+    @Column(name = "date_creation", nullable = false)
     private LocalDate dateCreation;
+
 
     @ManyToOne
     @JoinColumn(name = "parent_id")

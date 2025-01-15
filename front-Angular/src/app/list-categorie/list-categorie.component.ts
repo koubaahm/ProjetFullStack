@@ -14,6 +14,9 @@ export class ListCategorieComponent implements OnInit {
   currentPage: number = 0;     // Page actuelle
   pageSize: number = 10;       // Nombre de catégories par page
   totalPages: number = 0;      // Total de pages disponibles
+  filter = {                   // Filtre pour racine ou non
+    estRacine: undefined as boolean | undefined
+  };
 
   constructor(private categorieService: CategorieService, private datePipe: DatePipe) {}
 
@@ -21,17 +24,23 @@ export class ListCategorieComponent implements OnInit {
     this.loadCategories(); // Charger la première page au démarrage
   }
 
-  // Charger les catégories paginées
+  // Charger les catégories paginées avec filtre
   loadCategories(): void {
-    this.categorieService.getCategoriesPaginated(this.currentPage, this.pageSize).subscribe(
+    this.categorieService.getFilteredCategories(this.filter.estRacine, this.currentPage, this.pageSize).subscribe(
       (response) => {
         this.categories = response.content; // Les catégories de la page actuelle
         this.totalPages = response.totalPages; // Nombre total de pages
       },
       (error) => {
-        console.error('Erreur lors de la récupération des catégories paginées', error);
+        console.error('Erreur lors de la récupération des catégories filtrées', error);
       }
     );
+  }
+
+  // Appliquer le filtre
+  applyFilter(): void {
+    this.currentPage = 0; // Réinitialiser à la première page
+    this.loadCategories();
   }
 
   // Méthode pour passer à la page suivante

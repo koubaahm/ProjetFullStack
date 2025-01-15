@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Categorie } from './Categorie';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -68,4 +69,19 @@ getCategoriesPaginated(page: number, size: number): Observable<any> {
     // Envoie une requête DELETE pour supprimer la catégorie avec l'ID donné
     return this.http.delete<void>(`${this.apiUrl}delete/${id}`);
   }
+
+  //filtre categorie
+getFilteredCategories(estRacine?: boolean, page: number = 0, size: number = 10): Observable<any> {
+  const params = {
+    page: page.toString(),
+    size: size.toString(),
+    ...(estRacine !== undefined && { estRacine: estRacine.toString() }) // Ajouter estRacine uniquement s'il est défini
+  };
+
+  return this.http.get<any>(`${this.apiUrl}filtrer`, { params });
+}
+
+  
+  
+  
 }

@@ -1,83 +1,38 @@
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Liste des catégories</h2>
-
-  <!-- Bouton pour ajouter une catégorie -->
-  <button class="btn btn-primary mb-4" routerLink="/ajoutCategorie">Ajout catégorie</button>
-
-  <!-- Vérification si la liste des catégories n'est pas vide -->
-  <div *ngIf="categories && categories.length > 0; else noCategories">
-    <table class="table table-striped table-bordered table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">Nom de la catégorie</th>
-          <th scope="col">Crée le</th>
-          <th scope="col">Statut</th>
-          <th scope="col">Enfants</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Boucle pour afficher chaque catégorie -->
-        <tr *ngFor="let categorie of categories">
-          <td>{{ categorie.nom }}</td>
-          <td>{{ formatDate(categorie.dateCreation) }}</td> <!-- Utilisation de formatDate ici -->
-
-          <!-- Affichage si la catégorie est une racine -->
-          <td>
-            <span *ngIf="categorie.estRacine" class="badge bg-primary">
-              Racine
-            </span>
-            <span *ngIf="!categorie.estRacine" class="badge bg-secondary">
-              Non racine
-            </span>
-          </td>
-
-          <!-- Affichage des enfants de la catégorie -->
-          <td>
-            <ul *ngIf="categorie.enfants && categorie.enfants.length > 0">
-              <li *ngFor="let enfant of categorie.enfants">
-                {{ enfant.nom }}
-              </li>
-            </ul>
-            <span *ngIf="!categorie.enfants || categorie.enfants.length === 0">Aucun enfant</span>
-          </td>
-
-          <!-- Colonne des actions avec les boutons Modifier et Supprimer -->
-          <td>
-            <!-- Bouton Modifier -->
-            <button class="btn btn-warning btn-sm" [routerLink]="['/modifierCategorie', categorie.id]">
-              Modifier
-            </button>
-            <!-- Bouton Supprimer -->
-            <button class="btn btn-danger btn-sm" (click)="deleteCategorie(categorie.id)">
-              Supprimer
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Contrôles de pagination -->
-    <div class="d-flex justify-content-between align-items-center mt-3">
-      <!-- Bouton Page précédente -->
-      <button class="btn btn-outline-primary" (click)="previousPage()" [disabled]="currentPage === 0">
-        Précédent
-      </button>
-
-      <!-- Indicateur de page actuelle -->
-      <span>Page {{ currentPage + 1 }} sur {{ totalPages }}</span>
-
-      <!-- Bouton Page suivante -->
-      <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
-        Suivant
-      </button>
-    </div>
-  </div>
-
-  <!-- Template alternatif en cas de liste vide -->
-  <ng-template #noCategories>
-    <div class="alert alert-warning text-center" role="alert">
-      <i class="bi bi-exclamation-circle me-2"></i> Aucune catégorie disponible.
-    </div>
-  </ng-template>
-</div>
+<table class="modern-table">
+  <thead>
+    <tr>
+      <th>Nom de la catégorie</th>
+      <th>Crée le</th>
+      <th>Statut</th>
+      <th>Enfants</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let categorie of categories">
+      <td>
+        <a [routerLink]="['/categories', categorie.id]">{{ categorie.nom }}</a>
+      </td>
+      <td>{{ formatDate(categorie.dateCreation) }}</td>
+      <td>
+        <span class="status-badge" [class.racine]="categorie.estRacine">
+          {{ categorie.estRacine ? 'Racine' : 'Non racine' }}
+        </span>
+      </td>
+      <td>
+        <ul *ngIf="categorie.enfants && categorie.enfants.length > 0" class="children-list">
+          <li *ngFor="let enfant of categorie.enfants">{{ enfant.nom }}</li>
+        </ul>
+        <span *ngIf="!categorie.enfants || categorie.enfants.length === 0">Aucun enfant</span>
+      </td>
+      <td>
+        <button class="action-button edit" onclick="window.location.href='/modifierCategorie/' + categorie.id">
+          Modifier
+        </button>
+        <button class="action-button delete" (click)="deleteCategorie(categorie.id)">
+          Supprimer
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

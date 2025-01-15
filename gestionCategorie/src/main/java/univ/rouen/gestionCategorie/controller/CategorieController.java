@@ -65,6 +65,14 @@ public class CategorieController {
         return categorieService.getCategoriesPaginated(page, size);
     }
 
+    @GetMapping("/filtrer")
+    public Page<Categorie> filterCategories(@RequestParam(required = false) Boolean estRacine,
+                                            @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int size) {
+        return categorieService.filterByEstRacine(estRacine, page, size);
+    }
+
+
 
 }
 

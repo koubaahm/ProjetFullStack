@@ -1,0 +1,15 @@
+<div *ngIf="categorie">
+    <h2>Détails de la catégorie : {{ categorie.nom }}</h2>
+    <p><strong>ID :</strong> {{ categorie.id }}</p>
+    <p><strong>Date de création :</strong> {{ convertToDate(categorie.dateCreation) | date:'dd/MM/yyyy' }}</p>
+    <p><strong>Statut :</strong> {{ categorie.estRacine ? 'Racine' : 'Non racine' }}</p>
+  
+    <h3>Enfants :</h3>
+    <ul *ngIf="categorie.enfants && categorie.enfants.length > 0">
+      <li *ngFor="let enfant of categorie.enfants">{{ enfant.nom }}</li>
+    </ul>
+    <p *ngIf="!categorie.enfants || categorie.enfants.length === 0">Aucun enfant</p>
+  
+    <button (click)="goBack()">Retour</button>
+  </div>
+  

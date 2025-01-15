@@ -8,6 +8,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { AjoutCategorieComponent } from './ajout-categorie/ajout-categorie.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModifierCategorieComponent } from './modifier-categorie/modifier-categorie.component';
+import { FormsModule } from '@angular/forms';
+import { CategorieDetailsComponent } from './categorie-details/categorie-details.component';
 
 @NgModule({
   declarations: [
@@ -15,12 +17,14 @@ import { ModifierCategorieComponent } from './modifier-categorie/modifier-catego
     ListCategorieComponent,
     NavbarComponent,
     AjoutCategorieComponent,
-    ModifierCategorieComponent
+    ModifierCategorieComponent,
+    CategorieDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     provideHttpClient()

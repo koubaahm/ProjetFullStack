@@ -3,6 +3,7 @@ package univ.rouen.gestionCategorie.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import univ.rouen.gestionCategorie.entities.Categorie;
 import univ.rouen.gestionCategorie.repository.CategorieRepository;
@@ -118,6 +119,12 @@ public class CategorieService {
     public Page<Categorie> getCategoriesPaginated(int page, int size) {
         return categorieRepository.findAll(PageRequest.of(page, size));
     }
+
+    public Page<Categorie> filterByEstRacine(Boolean estRacine, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return categorieRepository.findByEstRacine(estRacine, pageable);
+    }
+
 
 
 

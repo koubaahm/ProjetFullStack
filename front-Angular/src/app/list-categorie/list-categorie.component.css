@@ -1,0 +1,162 @@
+/* Conteneur principal */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1c1c1c; /* Fond noir */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    color: #e0e0e0; /* Texte clair */
+  }
+  
+  /* En-tête */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #ffffff; /* Texte blanc */
+  }
+  
+  .add-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .add-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Table moderne */
+  .modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2c2c2c; /* Fond des tableaux */
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .modern-table th,
+  .modern-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #3a3a3a; /* Lignes séparatrices */
+    color: #e0e0e0;
+  }
+  
+  .modern-table th {
+    background-color: #333333;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .modern-table tr:hover {
+    background-color: #444444; /* Survol des lignes */
+  }
+  
+  /* Badge de statut */
+  .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+  }
+  
+  .status-badge.racine {
+    background-color: #4CAF50;
+  }
+  
+  .status-badge:not(.racine) {
+    background-color: #f44336;
+  }
+  
+  /* Liste des enfants */
+  .children-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  
+  .children-list li {
+    font-size: 14px;
+    color: #bdbdbd; /* Texte des enfants */
+  }
+  
+  /* Boutons d'action */
+  .action-button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .action-button.edit:hover {
+    background-color: #1976D2;
+  }
+  
+  .action-button.delete {
+    background-color: #f44336;
+  }
+  
+  .action-button.delete:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .pagination-button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .pagination-button:disabled {
+    background-color: #555555; /* Boutons désactivés */
+    cursor: not-allowed;
+  }
+  
+  /* Aucune catégorie */
+  .no-categories {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #f44336;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .warning-icon {
+    font-size: 20px;
+  }
+  
