@@ -8,20 +8,23 @@ import { DatePipe } from '@angular/common';
   selector: 'app-list-categorie',
   templateUrl: './list-categorie.component.html',
   styleUrls: ['./list-categorie.component.css'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class ListCategorieComponent implements OnInit {
   categories: Categorie[] = []; // Liste des catégories
-  currentPage: number = 0;     // Page actuelle
-  pageSize: number = 10;       // Nombre de catégories par page
-  totalPages: number = 0;      // Total de pages disponibles
+  currentPage: number = 0; // Page actuelle
+  pageSize: number = 10; // Nombre de catégories par page
+  totalPages: number = 0; // Total de pages disponibles
 
   // Tri
   sortCriteria: string = 'name'; // Critère de tri initial
-  
+
   // Filtre
   filter = {
-    estRacine: undefined as boolean | undefined
+    estRacine: undefined as boolean | undefined, // Filtrer par catégories racines
+    beforeDate: undefined as string | undefined, // Date avant laquelle les catégories ont été créées
+    afterDate: undefined as string | undefined, // Date après laquelle les catégories ont été créées
+    searchName: undefined as string | undefined, // Recherche par nom
   };
 
   constructor(
@@ -31,24 +34,48 @@ export class ListCategorieComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadCategories(); // Charger les catégories au démarrage
+    this.loadAllCategories(); // Charger toutes les catégories au démarrage
   }
 
-  // Charger les catégories paginées avec filtre
-  loadCategories(): void {
-    this.categorieService.getFilteredCategories(this.filter.estRacine, this.currentPage, this.pageSize).subscribe(
-      (response) => {
-        this.categories = response.content; // Catégories actuelles
-        this.totalPages = response.totalPages; // Nombre total de pages
-        this.applySort(); // Appliquer le tri après chargement
+  // Charger toutes les catégories par défaut
+  loadAllCategories(): void {
+    this.categorieService.getCategories().subscribe(
+      (data) => {
+        this.categories = data; // Charger toutes les catégories
+        console.log('Toutes les catégories :', this.categories);
+        this.applySort(); // Appliquer le tri par défaut
       },
       (error) => {
-        console.error('Erreur lors de la récupération des catégories filtrées', error);
+        console.error('Erreur lors du chargement des catégories', error);
       }
     );
   }
 
-  // Méthode pour appliquer le tri
+  // Charger les catégories filtrées
+  applyFilter(): void {
+    const { searchName, estRacine, beforeDate, afterDate } = this.filter;
+
+    // Vérification des dates
+    if (beforeDate && afterDate && new Date(beforeDate) < new Date(afterDate)) {
+      console.error('La date "Avant le" doit être postérieure à la date "Après le".');
+      return;
+    }
+
+    this.categorieService
+      .getCategoriesFiltre(searchName, estRacine, beforeDate, afterDate)
+      .subscribe(
+        (data) => {
+          this.categories = data; // Charger les catégories filtrées
+          console.log('Catégories filtrées :', this.categories);
+          this.applySort(); // Appliquer le tri
+        },
+        (error) => {
+          console.error('Erreur lors du filtrage', error);
+        }
+      );
+  }
+
+  // Appliquer le tri
   applySort(): void {
     switch (this.sortCriteria) {
       case 'name':
@@ -67,31 +94,23 @@ export class ListCategorieComponent implements OnInit {
     }
   }
 
-  // Méthode pour afficher l'arborescence des catégories
-  displayCategoryTree(categories: Categorie[]): string {
-    const buildTree = (categories: Categorie[], level: number = 0): string => {
-      return categories
-        .map(
-          (cat) =>
-            `${'--'.repeat(level)} ${cat.nom}\n` +
-            (cat.enfants && cat.enfants.length > 0 ? buildTree(cat.enfants, level + 1) : '')
-        )
-        .join('');
+  // Réinitialiser les filtres
+  resetFilters(): void {
+    this.filter = {
+      estRacine: undefined,
+      beforeDate: undefined,
+      afterDate: undefined,
+      searchName: undefined,
     };
-    return buildTree(categories);
+    this.sortCriteria = 'name'; // Réinitialiser le tri
+    this.loadAllCategories(); // Charger toutes les catégories
   }
 
-  // Appliquer le filtre
-  applyFilter(): void {
-    this.currentPage = 0; // Réinitialiser à la première page
-    this.loadCategories();
-  }
-
-  // Méthode pour passer à la page suivante
+  // Méthode pour naviguer vers la page suivante
   nextPage(): void {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
-      this.loadCategories();
+      this.applyFilter(); // Charger la page suivante avec les filtres
     }
   }
 
@@ -99,7 +118,7 @@ export class ListCategorieComponent implements OnInit {
   previousPage(): void {
     if (this.currentPage > 0) {
       this.currentPage--;
-      this.loadCategories();
+      this.applyFilter(); // Charger la page précédente avec les filtres
     }
   }
 

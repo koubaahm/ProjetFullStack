@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import univ.rouen.gestionCategorie.entities.Categorie;
 import univ.rouen.gestionCategorie.repository.CategorieRepository;
@@ -105,8 +106,8 @@ public class CategorieService {
 
         categorieRepository.deleteById(id);
     }
-    public Page<Categorie> getAllCategories(Pageable pageable) {
-        return categorieRepository.findAll(pageable);
+    public List<Categorie> getAllCategories() {
+        return categorieRepository.findAll();
     }
     public Categorie getCategorieById(Long id) {
         Optional<Categorie> categorieOptional = categorieRepository.findById(id);
@@ -124,6 +125,26 @@ public class CategorieService {
         Pageable pageable = PageRequest.of(page, size);
         return categorieRepository.findByEstRacine(estRacine, pageable);
     }
+
+    public List<Categorie> categoriesFiltrees(String searchName, Boolean isRoot, LocalDate beforeDate, LocalDate afterDate) {
+        Specification<Categorie> spec = Specification.where(null);
+
+        if (searchName != null && !searchName.isEmpty()) {
+            spec = spec.and(CategorieSpecification.hasName(searchName));
+        }
+        if (isRoot != null) {
+            spec = spec.and(CategorieSpecification.isRoot(isRoot));
+        }
+        if (beforeDate != null) {
+            spec = spec.and(CategorieSpecification.createBefore(beforeDate));
+        }
+        if (afterDate != null) {
+            spec = spec.and(CategorieSpecification.createAfter(afterDate));
+        }
+
+        return categorieRepository.findAll(spec);
+    }
+
 
 
 

@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./gestionCategorie
+      dockerfile: Dockerfile
+    container_name: spring-backend
+    ports:
+      - "8085:8085"
+    networks:
+      - mynetwork
+    depends_on:
+      - unique-postgres-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://unique-postgres-db:5432/categorie-db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  frontend:
+    build:
+      context: ./front-Angular
+      dockerfile: Dockerfile
+    container_name: angular-frontend
+    ports:
+      - "4200:4200"  # Map le port Angular par défaut
+    networks:
+      - mynetwork
+    depends_on:
+      - backend
+    environment:
+      API_URL: http://spring-backend:8085 # Exemple pour pointer vers le backend depuis le frontend
+
+  unique-postgres-db:
+    image: 'postgres:latest'
+    container_name: 'postgres-db'
+    environment:
+      POSTGRES_DB: 'categorie-db'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: '123'
+    ports:
+      - '5432:5432'
+    networks:
+      - mynetwork
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    container_name: 'pgadmin'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
+    ports:
+      - '5050:80'
+    networks:
+      - mynetwork
+    depends_on:
+      - unique-postgres-db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:

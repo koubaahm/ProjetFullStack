@@ -7,12 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import univ.rouen.gestionCategorie.entities.Categorie;
+
+import java.time.LocalDate;
 import java.util.List;
 import univ.rouen.gestionCategorie.service.CategorieService;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:8081")
 public class CategorieController {
 
     @Autowired
@@ -49,14 +51,10 @@ public class CategorieController {
     }
 
     // API qui permet d'afficher toutes les catégories
-    @GetMapping()
-    public Page<Categorie> getCategories(
-            @RequestParam(required = false, defaultValue = "name") String sortBy,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return categorieService.getAllCategories(pageable);
+    @GetMapping("/")
+    public List<Categorie> getCategories() {
+
+        return categorieService.getAllCategories();
     }
 
 
@@ -80,6 +78,18 @@ public class CategorieController {
                                             @RequestParam(defaultValue = "10") int size) {
         return categorieService.filterByEstRacine(estRacine, page, size);
     }
+
+    @GetMapping("/filtrerParNom")
+    public List<Categorie> filterByNameAndDate(
+            @RequestParam(required = false) String searchName,
+            @RequestParam(required = false) Boolean isRoot,
+            @RequestParam(required = false) LocalDate beforeDate,
+            @RequestParam(required = false) LocalDate afterDate
+    ) {
+        return categorieService.categoriesFiltrees(searchName, isRoot, beforeDate, afterDate);
+    }
+
+
 
 
 

@@ -1,5 +1,5 @@
 # Utiliser une image Java légère
-FROM openjdk:17-jdk-alpine
+FROM eclipse-temurin:17-jdk
 
 # Définir l'argument pour le fichier WAR
 ARG WAR_FILE=target/gestionCategorie-0.0.1-SNAPSHOT.war
@@ -8,11 +8,7 @@ ARG WAR_FILE=target/gestionCategorie-0.0.1-SNAPSHOT.war
 COPY ${WAR_FILE} app.war
 
 # Exposer le port de l'application
-EXPOSE 8084
+EXPOSE 8085
 
 # Lancer l'application avec le fichier WAR
 ENTRYPOINT ["java", "-jar", "/app.war"]
-FROM ubuntu:latest
-LABEL authors="Ahmed"
-
-ENTRYPOINT ["top", "-b"]

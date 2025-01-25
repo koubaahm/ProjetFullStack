@@ -1,7 +1,7 @@
 services:
   postgresdb:
     image: 'postgres:latest'
-    container_name: 'postgres-db'
+    container_name: 'postgres-db-tp1'
     environment:
       POSTGRES_DB: 'categorie-db'
       POSTGRES_USER: 'root'
@@ -20,7 +20,7 @@ services:
 
   pgadmin:
     image: 'dpage/pgadmin4:latest'
-    container_name: 'pgadmin'
+    container_name: 'pgadmin-tp1'
     environment:
       PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
       PGADMIN_DEFAULT_PASSWORD: 'admin'

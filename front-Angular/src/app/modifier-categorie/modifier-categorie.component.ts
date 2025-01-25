@@ -11,9 +11,9 @@ import { Categorie } from '../Categorie';
 })
 export class ModifierCategorieComponent implements OnInit {
   categorieForm: FormGroup;
-  categorieId: number = 0; // ID de la catégorie à modifier
+  categorieId: number = 0; 
   categorie: Categorie | null = null;
-  categories: Categorie[] = []; // Liste des catégories disponibles
+  categories: Categorie[] = []; 
 
   constructor(
     private fb: FormBuilder,
@@ -38,16 +38,20 @@ export class ModifierCategorieComponent implements OnInit {
   }
 
   // Méthode pour charger la liste des catégories
-  loadCategories(): void {
-    this.categorieService.getCategories().subscribe(
-      (categories) => {
-        this.categories = categories;
-      },
-      (error) => {
-        console.error('Erreur lors du chargement des catégories', error);
-      }
-    );
-  }
+// Méthode pour charger la liste des catégories
+loadCategories(): void {
+  this.categorieService.getCategories().subscribe(
+    (categories) => {
+      this.categories = categories; // Assignez les catégories récupérées
+      console.log('Catégories récupérées :', this.categories); // Affichez les catégories récupérées
+    },
+    (error) => {
+      console.error('Erreur lors du chargement des catégories :', error); // Affichez l'erreur en cas de problème
+    }
+  );
+}
+
+  
 
   // Méthode pour charger les données de la catégorie à modifier
   loadCategorie(): void {
